@@ -3,7 +3,7 @@
 **Free FM26 graphics refresh and skin management for Windows.**  
 **Windows용 무료 FM26 그래픽 새로고침·스킨 관리 프로그램입니다.**
 
-Version **1.0.0** · by **JunHo** · **MIT License**
+by **JunHo** · **MIT License**
 
 [Download / 다운로드](https://github.com/dev-junos/FM-Graphics-Reload/releases/latest) · [User guide / 사용 안내](사용%20안내.md) · [Changelog / 변경 내역](CHANGELOG.md)
 
@@ -13,7 +13,7 @@ FM Graphics Reload refreshes player faces, logos and other graphics, and manages
 
 ### Getting started
 
-1. Download **FM Graphics Reload 1.0.1.exe** from Releases and run it. No separate Python installation is required.
+1. Download the **EXE from the [latest release](https://github.com/dev-junos/FM-Graphics-Reload/releases/latest)** and run it. No separate Python installation is required.
 2. Check the graphics folder and game installation folder. Select them manually if automatic detection cannot find them.
 3. Drop a skin folder or ZIP into the app, or use `+` to add it. Skin subfolders are discovered separately and copied into the app's local storage.
 4. Toggle skins and drag to change priority. Higher entries win file conflicts. Ctrl multi-selection and bulk removal are supported.
@@ -33,13 +33,22 @@ English is the default for new settings. Existing language preferences are prese
 - **FM running:** selections are saved; use the apply buttons to update the live screen. Installation writes wait until FM exits while this app remains open.
 - Closing the app keeps pending work. Reopen it with FM closed to retry installation writes. Closing without changes does not repeat the pending-installation notice.
 - Settings, imported skins, backups and caches are stored in `%LOCALAPPDATA%\FM Graphics Reload`.
-- Use the menu next to Delete for baseline reset, cache clearing and pending-save retry. See the user guide before resetting the baseline.
+
+### Maintenance menu
+
+Open **▾ next to Delete** to use these tools.
+
+| Tool | What it does and when to use it |
+|---|---|
+| Reset skin baseline | With FM closed, adopts the files currently in the game installation folder as the new baseline and switches all skin selections OFF. Use this after manually replacing installed skin files. Installed files stay as they are; imported skins and previous backups are kept. This does not restore the game's original skin. |
+| Clear cache | With FM closed, deletes this app's temporary skin preparation cache and previous live-refresh session data. Use it to rebuild prepared files when troubleshooting. Installed files, imported skins and recovery backups are kept. The next skin application may take longer while files are prepared again. This clears the app's cache, not FM's own cache. |
+| Retry pending file save | Appears only when installation changes are waiting to be saved. After closing FM, use it to retry writing the current skin selections and priority order to the game installation folder, for example after resolving a file-access error. While FM is running, installation writes remain queued; this does not refresh the live game screen. |
 
 ### Compatibility
 
 Windows x64 and the supported **FM26 26.3.2** build are required. Game files are checked against the hashes in `runtime/profile.json` before connection. New, missing or changed-since-start bundles are blocked during live application; close FM to install new bundles. Compatibility with every skin is not guaranteed. Repeated application of different large skins can reach the retained-resource limit.
 
-Version 1.0.0 uses the same native bridge as 0.17–0.22. Restart FM once if a bridge from 0.16 or earlier is already loaded. Korean/English GUI initialization and automated close-behavior checks were verified; repeated live skin swaps and clean-PC execution/builds have not all been verified.
+If the app reports that the loaded game connection module is incompatible, restart FM and check the connection again. Korean/English GUI initialization and automated close-behavior checks were verified; repeated live skin swaps and clean-PC execution/builds have not all been verified.
 
 ## 한국어
 
@@ -47,7 +56,7 @@ FM Graphics Reload는 선수 페이스·로고 등 그래픽 새로고침과 부
 
 ### 시작하기
 
-1. Releases에서 **FM Graphics Reload 1.0.1.exe**를 다운로드해 실행합니다. Python 설치가 필요 없는 단일 EXE입니다.
+1. **[최신 릴리스](https://github.com/dev-junos/FM-Graphics-Reload/releases/latest)의 EXE 파일**을 다운로드해 실행합니다. Python 설치가 필요 없는 단일 EXE입니다.
 2. 처음 실행하면 영어로 표시됩니다. 오른쪽 위 언어 선택에서 **한국어**로 바꿀 수 있으며, 기존 사용자의 언어 설정은 유지합니다.
 3. 페이스·로고 폴더와 게임 설치 폴더를 확인합니다. 자동으로 찾지 못하면 직접 선택합니다.
 4. 스킨 폴더·ZIP을 끌어 놓거나 `+`로 등록합니다. 하위 폴더의 스킨도 찾아 각각 등록하고 프로그램 저장 폴더로 복사합니다.
@@ -66,13 +75,22 @@ FM Graphics Reload는 선수 페이스·로고 등 그래픽 새로고침과 부
 - **FM 실행 상태:** 선택을 저장하고 적용 버튼으로 화면을 갱신합니다. 설치 파일은 FM 종료 후 이 프로그램이 열려 있을 때 자동 반영합니다.
 - 프로그램을 닫아도 반영 대기 작업은 유지됩니다. FM이 꺼진 상태에서 다시 실행하면 반영을 재시도합니다. 시작 후 변경 없이 닫으면 확인창이 반복되지 않습니다.
 - 설정·등록한 스킨·백업·캐시는 `%LOCALAPPDATA%\FM Graphics Reload`에 보관합니다.
-- 삭제 옆 메뉴에서 스킨 기준 초기화, 캐시 초기화, 반영 대기 작업 재시도를 사용할 수 있습니다. 초기화 기능의 차이는 [사용 안내](사용%20안내.md)를 참고하세요.
+
+### 초기화와 저장 재시도
+
+**삭제 버튼 옆 ▾ 메뉴**에서 사용할 수 있습니다.
+
+| 기능 | 동작과 사용 시점 |
+|---|---|
+| 스킨 기준 초기화 | FM을 종료한 상태에서 현재 게임 설치 폴더의 파일을 새 기준으로 삼고 모든 스킨 선택을 OFF로 바꿉니다. 사용자가 설치 파일을 직접 교체한 뒤 그 상태를 기준으로 관리하려 할 때 사용합니다. 설치 파일은 그대로 두며, 등록 스킨과 이전 백업은 보관합니다. 게임의 순정 스킨으로 복원하는 기능은 아닙니다. |
+| 캐시 초기화 | FM을 종료한 상태에서 이 프로그램의 임시 스킨 준비 파일과 이전 실행의 화면 갱신 자료를 삭제합니다. 준비 파일을 다시 만들어 문제를 확인할 때 사용합니다. 설치 파일·등록 스킨·복원용 백업은 유지되며, 다음 스킨 적용은 파일을 다시 준비하느라 더 오래 걸릴 수 있습니다. FM 자체 캐시를 지우는 기능은 아닙니다. |
+| 대기 중인 설치 파일 저장 재시도 | 설치 파일에 반영할 작업이 대기 중일 때만 표시됩니다. FM을 종료한 뒤 현재 스킨 선택과 우선순위를 설치 폴더에 다시 저장합니다. 파일 접근 오류 등을 해결한 뒤 수동으로 재시도할 때 사용합니다. FM이 실행 중이면 설치 파일 저장은 계속 대기하며, 게임 화면을 새로고침하는 기능은 아닙니다. |
 
 ### 지원 환경과 제한
 
 Windows x64와 지원 대상 **FM26 26.3.2** 빌드가 필요합니다. 게임 연결 전 `runtime/profile.json`의 해시와 대조합니다. 게임 실행 중에는 누락·신규·게임 시작 후 변경된 번들을 차단하며, 새 번들은 FM 종료 후 설치해야 합니다. 모든 스킨의 내부 자원 호환성을 보장하지 않습니다. 서로 다른 대형 스킨을 반복 적용하면 메모리 보관 한도에 도달할 수 있습니다.
 
-1.0.0의 게임 연결 모듈은 0.17~0.22와 같습니다. 0.16 이하 모듈이 이미 연결된 FM은 한 번 재시작해야 합니다. 한글·영문 GUI 초기화와 종료 동작 자동 검사를 수행했으며, 실제 게임의 반복 스킨 교체 및 다른 PC에서의 실행·재빌드를 모두 검증한 것은 아닙니다.
+이미 연결된 게임 모듈과 호환되지 않는다는 안내가 나오면 FM을 재시작한 뒤 게임 연결을 다시 확인하세요. 한글·영문 GUI 초기화와 종료 동작 자동 검사를 수행했으며, 실제 게임의 반복 스킨 교체 및 다른 PC에서의 실행·재빌드를 모두 검증한 것은 아닙니다.
 
 ## Optional support / 선택적 후원
 
@@ -92,7 +110,9 @@ py -3.12 -m venv .venv
 .\build.ps1 -Python .\.venv\Scripts\python.exe -Zig C:\Tools\zig\zig.exe -OutputFolder dist
 ```
 
-Output: `dist/FM Graphics Reload 1.0.1.exe`. Set `-Zig` to your installed Zig executable. The first build must compile the native DLL; use `-SkipNative` only when reusing an existing build of that DLL.
+The built EXE is saved in `dist/`; its filename includes the version defined in `app/version.py`. Set `-Zig` to your installed Zig executable. The first build must compile the native DLL; use `-SkipNative` only when reusing an existing build of that DLL.
+
+빌드한 EXE는 `dist/`에 생성되며, 파일 이름에는 `app/version.py`에 정의된 버전이 붙습니다.
 
 `-Zig`에는 설치한 Zig 실행 파일 경로를 지정하세요. 최초 빌드는 DLL을 생성해야 하므로 `-SkipNative` 없이 실행하며, 기존 DLL을 재사용할 때만 해당 옵션을 사용합니다.
 
