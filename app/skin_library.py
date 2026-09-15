@@ -208,7 +208,13 @@ def apply(pid,data,progress=lambda s:None):
             removed=[name for name,path in desired.items() if path is None]
             if removed:raise ValueError('추가 설치 파일 삭제는 FM 종료 후 처리합니다: '+', '.join(removed))
             before={name:skins._hash(installed_skins.target_file(installed,name)) for name in desired}
-            installed_skins.capture_startup(pid,installed,before)
+            # Partial packs and startup backups do not necessarily include the
+            # shared MonoScript catalog. Preserve it for metadata lookup, without
+            # adding unchanged script bundles to the live replacement set.
+            script_names={name for name in skins.bundle_files(installed) if name.endswith('_monoscripts.bundle')}
+            with live_skin_guard.hold(pid,script_names):
+                before.update({name:skins._hash(installed_skins.target_file(installed,name)) for name in script_names})
+                installed_skins.capture_startup(pid,installed,before)
             folder=full_skins.session_folder(pid);metadata=folder/'startup.json'
             startup=json.loads(metadata.read_text(encoding='utf-8')) if metadata.exists() else dict(files={})
         # Hot apply reads desired sources directly; it never replaces open installation files.
