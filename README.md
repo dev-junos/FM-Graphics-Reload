@@ -3,7 +3,7 @@
 **Free FM26 graphics refresh and skin management for Windows.**  
 **Windows용 무료 FM26 그래픽 새로고침·스킨 관리 프로그램입니다.**
 
-Version **1.0** · by **JunHo** · **MIT License**
+Version **1.0.0** · by **JunHo** · **MIT License**
 
 [Download / 다운로드](https://github.com/dev-junos/FM-Graphics-Reload/releases/latest) · [User guide / 사용 안내](사용%20안내.md) · [Changelog / 변경 내역](CHANGELOG.md)
 
@@ -13,7 +13,7 @@ FM Graphics Reload refreshes player faces, logos and other graphics, and manages
 
 ### Getting started
 
-1. Download **FM Graphics Reload 1.0.exe** from Releases and run it. No separate Python installation is required.
+1. Download **FM Graphics Reload 1.0.1.exe** from Releases and run it. No separate Python installation is required.
 2. Check the graphics folder and game installation folder. Select them manually if automatic detection cannot find them.
 3. Drop a skin folder or ZIP into the app, or use `+` to add it. Skin subfolders are discovered separately and copied into the app's local storage.
 4. Toggle skins and drag to change priority. Higher entries win file conflicts. Ctrl multi-selection and bulk removal are supported.
@@ -39,7 +39,7 @@ English is the default for new settings. Existing language preferences are prese
 
 Windows x64 and the supported **FM26 26.3.2** build are required. Game files are checked against the hashes in `runtime/profile.json` before connection. New, missing or changed-since-start bundles are blocked during live application; close FM to install new bundles. Compatibility with every skin is not guaranteed. Repeated application of different large skins can reach the retained-resource limit.
 
-Version 1.0 uses the same native bridge as 0.17–0.22. Restart FM once if a bridge from 0.16 or earlier is already loaded. Korean/English GUI initialization and automated close-behavior checks were verified; repeated live skin swaps and clean-PC execution/builds have not all been verified.
+Version 1.0.0 uses the same native bridge as 0.17–0.22. Restart FM once if a bridge from 0.16 or earlier is already loaded. Korean/English GUI initialization and automated close-behavior checks were verified; repeated live skin swaps and clean-PC execution/builds have not all been verified.
 
 ## 한국어
 
@@ -47,7 +47,7 @@ FM Graphics Reload는 선수 페이스·로고 등 그래픽 새로고침과 부
 
 ### 시작하기
 
-1. Releases에서 **FM Graphics Reload 1.0.exe**를 다운로드해 실행합니다. Python 설치가 필요 없는 단일 EXE입니다.
+1. Releases에서 **FM Graphics Reload 1.0.1.exe**를 다운로드해 실행합니다. Python 설치가 필요 없는 단일 EXE입니다.
 2. 처음 실행하면 영어로 표시됩니다. 오른쪽 위 언어 선택에서 **한국어**로 바꿀 수 있으며, 기존 사용자의 언어 설정은 유지합니다.
 3. 페이스·로고 폴더와 게임 설치 폴더를 확인합니다. 자동으로 찾지 못하면 직접 선택합니다.
 4. 스킨 폴더·ZIP을 끌어 놓거나 `+`로 등록합니다. 하위 폴더의 스킨도 찾아 각각 등록하고 프로그램 저장 폴더로 복사합니다.
@@ -72,7 +72,7 @@ FM Graphics Reload는 선수 페이스·로고 등 그래픽 새로고침과 부
 
 Windows x64와 지원 대상 **FM26 26.3.2** 빌드가 필요합니다. 게임 연결 전 `runtime/profile.json`의 해시와 대조합니다. 게임 실행 중에는 누락·신규·게임 시작 후 변경된 번들을 차단하며, 새 번들은 FM 종료 후 설치해야 합니다. 모든 스킨의 내부 자원 호환성을 보장하지 않습니다. 서로 다른 대형 스킨을 반복 적용하면 메모리 보관 한도에 도달할 수 있습니다.
 
-1.0의 게임 연결 모듈은 0.17~0.22와 같습니다. 0.16 이하 모듈이 이미 연결된 FM은 한 번 재시작해야 합니다. 한글·영문 GUI 초기화와 종료 동작 자동 검사를 수행했으며, 실제 게임의 반복 스킨 교체 및 다른 PC에서의 실행·재빌드를 모두 검증한 것은 아닙니다.
+1.0.0의 게임 연결 모듈은 0.17~0.22와 같습니다. 0.16 이하 모듈이 이미 연결된 FM은 한 번 재시작해야 합니다. 한글·영문 GUI 초기화와 종료 동작 자동 검사를 수행했으며, 실제 게임의 반복 스킨 교체 및 다른 PC에서의 실행·재빌드를 모두 검증한 것은 아닙니다.
 
 ## Optional support / 선택적 후원
 
@@ -92,7 +92,7 @@ py -3.12 -m venv .venv
 .\build.ps1 -Python .\.venv\Scripts\python.exe -Zig C:\Tools\zig\zig.exe -OutputFolder dist
 ```
 
-Output: `dist/FM Graphics Reload 1.0.exe`. Set `-Zig` to your installed Zig executable. The first build must compile the native DLL; use `-SkipNative` only when reusing an existing build of that DLL.
+Output: `dist/FM Graphics Reload 1.0.1.exe`. Set `-Zig` to your installed Zig executable. The first build must compile the native DLL; use `-SkipNative` only when reusing an existing build of that DLL.
 
 `-Zig`에는 설치한 Zig 실행 파일 경로를 지정하세요. 최초 빌드는 DLL을 생성해야 하므로 `-SkipNative` 없이 실행하며, 기존 DLL을 재사용할 때만 해당 옵션을 사용합니다.
 

@@ -1,6 +1,11 @@
 # Changelog / 변경 내역
 
-## 1.0 — 2026-09-15
+## 1.0.0 — 2026-09-15
+
+- Fix partial skin preparation failing with `Could not identify skin script: ParsedAds`: retain the installed MonoScript catalog alongside startup backups for metadata lookup.
+- Validate and protect catalog files before copying. Unchanged catalog bundles are not added to live replacements; their hashes participate in prepared-cache identity.
+- 부분 스킨 준비 시 공통 스크립트 정보가 빠져 `스킨의 스크립트 정보를 확인하지 못했습니다: ParsedAds`로 중단되던 문제를 수정했습니다.
+- 기존 실행의 부분 백업에도 확인된 스크립트 정보를 보충하며, 바뀌지 않은 정보 파일은 게임 화면 교체 대상에 추가하지 않습니다. 게임 연결 모듈은 동일합니다.
 
 - First public release with a standalone Windows EXE and MIT source.
 - English is the default language. Existing language preferences are preserved.
