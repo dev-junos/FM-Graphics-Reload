@@ -1,0 +1,7 @@
+{
+  "build": "FM26 26.3.2",
+  "hashes": {
+    "game_plugin.dll": "eb6c86fab56e051fe41482c7b93d8cb0af716a1cc2c6197ce1babbff68372bb8",
+    "GameAssembly.dll": "7ce3eb474dc6093df633f979e869e55b2ec7953fde2e732392a694d379ff7a0c"
+  }
+}
