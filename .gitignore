@@ -1,0 +1,26 @@
+__pycache__/
+*.py[cod]
+.venv/
+build/
+build-*/
+build-tools/
+dist/
+dist-*/
+.zig-cache/
+.zig-global-cache/
+*.zip
+*.log
+/*.spec
+*.pdb
+*.lib
+runtime/*.dll
+skins/
+imports/
+cache/
+logs/
+installations/
+skins.json
+preflight*.json
+reload_packaged.json
+app/*snapshot*
+검증 기록.md
