@@ -24,7 +24,7 @@ class LibraryTests(unittest.TestCase):
                                   (lib.installed_skins,'data_root',self.root/'state')]:
             mock=patch.object(target,name,return_value=value);mock.start();self.addCleanup(mock.stop)
         inventory=patch.object(lib.live_skin_guard,'inventory',side_effect=lambda pid:dict(
-            pid=pid,stamp=1,installed=self.base,current={p.name:{} for p in self.base.glob('*.bundle')},
+            pid=pid,stamp=1,installed=self.base,current={p.name:{'path':str(p)} for p in self.base.glob('*.bundle')},
             permitted={p.name for p in self.base.glob('*.bundle')}))
         inventory.start();self.addCleanup(inventory.stop)
 
@@ -122,5 +122,52 @@ class LibraryTests(unittest.TestCase):
         plan=lib.resolve(self.data);folder=lib.compose(plan,self.root/'cache')
         self.assertEqual(len(plan['changed_bundles']),8)
         self.assertEqual(len(list(folder.glob('*.bundle'))),8)
+
+    def test_partial_skin_preserves_catalog_without_live_replacing_it(self):
+        script_name='common_monoscripts.bundle'
+        (self.base/script_name).write_bytes(b'installed script catalog')
+        self.pack('skin',{'ui-widgets_assets_all.bundle':b'new widgets'})
+        with patch.object(lib.full_skins,'run',return_value={}) as run, \
+             patch.object(full_skins,'session_folder',return_value=self.root):
+            result=lib.apply(123,self.data)
+        self.assertTrue(result['live_applied'],result)
+        baseline=run.call_args.kwargs['installed_override']
+        self.assertEqual((baseline/script_name).read_bytes(),b'installed script catalog')
+        self.assertEqual({p.name for p in run.call_args.args[1].glob('*.bundle')},
+                         {'ui-widgets_assets_all.bundle'})
+        self.assertEqual((self.base/'ui-widgets_assets_all.bundle').read_bytes(),b'original widgets')
+        identity=full_skins.preparation_identity(run.call_args.args[1],baseline,['ui-widgets_assets_all.bundle'])
+        self.assertEqual([s['name'] for s in identity['scripts']],[script_name])
+
+    def test_existing_partial_startup_backup_gets_missing_catalog(self):
+        startup=self.root/'startup';startup.mkdir()
+        name='ui-widgets_assets_all.bundle'
+        (startup/name).write_bytes((self.base/name).read_bytes())
+        (self.root/'startup.json').write_text(json.dumps(dict(installed=str(self.base),
+            files={name:skins._hash(startup/name)})),encoding='utf-8')
+        script_name='common_monoscripts.bundle'
+        (self.base/script_name).write_bytes(b'installed script catalog')
+        self.pack('skin',{name:b'new widgets'})
+        with patch.object(lib.full_skins,'run',return_value={}), \
+             patch.object(full_skins,'session_folder',return_value=self.root):
+            result=lib.apply(123,self.data)
+        self.assertTrue(result['live_applied'],result)
+        self.assertTrue((startup/script_name).exists())
+        self.assertEqual((startup/name).read_bytes(),b'original widgets')
+
+    def test_unconfirmed_script_catalog_stops_before_live_apply(self):
+        self.pack('skin',{'ui-widgets_assets_all.bundle':b'new widgets'})
+        (self.base/'common_monoscripts.bundle').write_bytes(b'changed catalog')
+        view=dict(pid=123,stamp=1,installed=self.base,
+                  current={p.name:{'path':str(p)} for p in self.base.glob('*.bundle')},
+                  permitted={'ui-widgets_assets_all.bundle','ui-styles_assets_default.bundle'})
+        with patch.object(lib.live_skin_guard,'inventory',return_value=view), \
+             patch.object(lib.full_skins,'run') as run, \
+             patch.object(full_skins,'session_folder',return_value=self.root):
+            result=lib.apply(123,self.data)
+        self.assertFalse(result['live_applied'])
+        self.assertIn('common_monoscripts.bundle',result['live_error'])
+        run.assert_not_called()
+        self.assertFalse((self.root/'startup.json').exists())
 
 if __name__=='__main__':unittest.main()
